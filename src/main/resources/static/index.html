@@ -76,8 +76,8 @@
 
     function deleteMember() {
         const deleteId = document.getElementById("deleteId").value;
-        console.log(deleteId)
-        fetch(`${apiUrl}/${deleteId}`, {
+
+        fetch(`${apiUrl}/delete/${deleteId}`, {
             method: 'DELETE',
         })
             .then(response => {
@@ -95,7 +95,7 @@
         const updateId = document.getElementById("updateId").value;
         const updatedName = document.getElementById("updatedName").value;
 
-        fetch(`${apiUrl}/${updateId}`, {
+        fetch(`${apiUrl}/update/${updateId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

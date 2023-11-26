@@ -2,16 +2,15 @@ package hello.hellospring.controller;
 
 import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.Hidden;
+//import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@Tag(name = "예제 API", description = "Swagger 테스트용 API")
+//@Tag(name = "예제 API", description = "Swagger 테스트용 API")
 @RestController
 @RequestMapping("/api/members")
-@CrossOrigin(origins = "http://localhost:your_frontend_port")
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -36,22 +35,22 @@ public class MemberController {
         return memberService.updateMember(id, updatedMember);
     }
 
-    @Hidden
+//    @Hidden
     @DeleteMapping("delete/{id}")
 //    @DeleteMapping("/{id}")
-//    public void deleteMember(@PathVariable Long id) {
-//        memberService.deleteMember(id);
-//    }
-
-
-    @DeleteMapping("/{id}")
     public void deleteMember(@PathVariable Long id) {
-        System.out.println("삭제할 회원 ID: " + id);
-
-        try {
-            memberService.deleteMember(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        memberService.deleteMember(id);
     }
+
+
+//    @DeleteMapping("/{id}")
+//    public void deleteMember(@PathVariable Long id) {
+//        System.out.println("삭제할 회원 ID: " + id);
+//
+//        try {
+//            memberService.deleteMember(id);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
