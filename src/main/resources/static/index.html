@@ -1,11 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 관리</title>
 </head>
 <body>
-hello
-<a href="">hello </a>
+
+<h1>회원 관리</h1>
+
+<button onclick="getAllMembers()">모든 회원 가져오기</button>
+<br>
+<p>회원 목록: <span id="members"></span></p>
+
+<hr>
+
+<h2>회원 생성</h2>
+<form id="createMemberForm">
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="button" onclick="createMember()">회원 생성</button>
+</form>
+
+<hr>
+
+<h2>회원 삭제</h2>
+<form id="deleteMemberForm">
+    <label for="deleteId">삭제할 회원 ID:</label>
+    <input type="text" id="deleteId" name="deleteId" required>
+    <button type="button" onclick="deleteMember()">회원 삭제</button>
+</form>
+
+<hr>
+
+<h2>회원 수정</h2>
+<form id="updateMemberForm">
+    <label for="updateId">수정할 회원 ID:</label>
+    <input type="text" id="updateId" name="updateId" required>
+    <br>
+    <label for="updatedName">새로운 이름:</label>
+    <input type="text" id="updatedName" name="updatedName" required>
+    <button type="button" onclick="updateMember()">회원 수정</button>
+</form>
+
+<script>
+    const apiUrl = "http://localhost:8080/api/members";
+
+    function getAllMembers() {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const membersElement = document.getElementById("members");
+                membersElement.innerText = data.map(member => member.name).join(", ");
+            })
+            .catch(error => console.error('오류:', error));
+    }
+
+    function createMember() {
+        const name = document.getElementById("name").value;
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('성공:', data);
+                getAllMembers();
+            })
+            .catch(error => console.error('오류:', error));
+    }
+
+    function deleteMember() {
+        const deleteId = document.getElementById("deleteId").value;
+        console.log(deleteId)
+        fetch(`${apiUrl}/${deleteId}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('삭제 성공');
+                    getAllMembers();
+                } else {
+                    console.error('삭제 실패');
+                }
+            })
+            .catch(error => console.error('오류:', error));
+    }
+
+    function updateMember() {
+        const updateId = document.getElementById("updateId").value;
+        const updatedName = document.getElementById("updatedName").value;
+
+        fetch(`${apiUrl}/${updateId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: updatedName }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('수정 성공:', data);
+                getAllMembers();
+            })
+            .catch(error => console.error('오류:', error));
+    }
+</script>
+
 </body>
 </html>

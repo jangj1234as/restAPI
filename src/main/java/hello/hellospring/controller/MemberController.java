@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/members")
+@CrossOrigin(origins = "http://localhost:your_frontend_port")
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -33,8 +34,20 @@ public class MemberController {
         return memberService.updateMember(id, updatedMember);
     }
 
+//    @DeleteMapping("/{id}")
+//    public void deleteMember(@PathVariable Long id) {
+//        memberService.deleteMember(id);
+//    }
+
+
     @DeleteMapping("/{id}")
     public void deleteMember(@PathVariable Long id) {
-        memberService.deleteMember(id);
+        System.out.println("삭제할 회원 ID: " + id);
+
+        try {
+            memberService.deleteMember(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
