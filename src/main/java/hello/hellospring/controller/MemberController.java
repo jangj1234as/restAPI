@@ -36,9 +36,7 @@ public class MemberController {
     }
 
 //    @Hidden'
-@CrossOrigin(origins = "http://localhost:your_frontend_port")
     @DeleteMapping("delete/{id}")
-//    @DeleteMapping("/{id}")
     public void deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
     }
